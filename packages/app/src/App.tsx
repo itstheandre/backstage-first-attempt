@@ -34,8 +34,23 @@ import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
 
+import { githubAuthApiRef } from '@backstage/core-plugin-api';
+import { SignInPage, SignInProviderConfig } from '@backstage/core-components';
+
+const githubProvider: SignInProviderConfig = {
+  id: 'github-auth-provider',
+  title: 'GitHJub',
+  message: 'Test',
+  apiRef: githubAuthApiRef,
+};
+
 const app = createApp({
   apis,
+  components: {
+    SignInPage: props => {
+      return <SignInPage auto provider={githubProvider} {...props} />;
+    },
+  },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
